@@ -201,3 +201,11 @@ type BuildItemSetResponse struct {
 	Stats      pq.StringArray  `json:"stats,omitempty" db:"stats"`
 	Implicit   *pq.StringArray `json:"implicit,omitempty" db:"implicit"`
 }
+
+type BuildStatus int
+
+const (
+	draft     BuildStatus = 0
+	published BuildStatus = 1
+	archived  BuildStatus = 2
+)

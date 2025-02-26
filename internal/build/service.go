@@ -1,6 +1,7 @@
 package build
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/darkphotonKN/community-builds/internal/models"
@@ -513,5 +514,13 @@ func (s *BuildService) PublishBuildService(id uuid.UUID, memberId uuid.UUID) err
 		return errorutils.AnalyzeDBErr(err)
 	}
 
-	return s.Repo.UpdateBuildByIdForMemberService(id, memberId)
+	if build == nil {
+		return errors.New(fmt.Sprintf("No build with the id %s exists.\n", id))
+	}
+
+	publishBuild := models.Build{
+		Status: int(draft),
+	}
+
+	return s.Repo.UpdateBuildByIdForMemberService(id, memberId, publishBuild)
 }

@@ -947,7 +947,7 @@ func (r *BuildRepository) GetBasicBuildInfoByIdForMember(id uuid.UUID, memberId 
 	return &build, nil
 }
 
-func (r *BuildRepository) UpdateBuildByIdForMemberService(id uuid.UUID, memberId uuid.UUID) error {
+func (r *BuildRepository) UpdateBuildByIdForMemberService(id uuid.UUID, memberId uuid.UUID, updateFields models.Build) error {
 
 	return nil
 }
