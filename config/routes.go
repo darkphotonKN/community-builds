@@ -133,6 +133,7 @@ func SetupRouter() *gin.Engine {
 	articleRepo := article.NewArticleRepository(DB)
 	articleService := article.NewArticleService(articleRepo)
 	articleHandler := article.NewArticleHandler(articleService)
+
 	// -- Article Routes --
 	articleRoutes := api.Group("/article")
 

@@ -412,6 +412,7 @@ func (s *BuildService) CreateDefaultItemSetsToBuildService(memberId uuid.UUID, b
 			"leftRing":   "",
 			"rightRing":  "",
 		}
+
 		// create item relations under this item set, one item at a time
 		for key, value := range itemSetsMap {
 			if value == "" {
@@ -519,7 +520,7 @@ func (s *BuildService) PublishBuildService(id uuid.UUID, memberId uuid.UUID) err
 	}
 
 	publishBuild := models.Build{
-		Status: int(draft),
+		Status: int(published),
 	}
 
 	return s.Repo.UpdateBuildByIdForMemberService(id, memberId, publishBuild)

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"reflect"
 
 	"github.com/darkphotonKN/community-builds/internal/models"
 	"github.com/darkphotonKN/community-builds/internal/types"
@@ -947,7 +948,46 @@ func (r *BuildRepository) GetBasicBuildInfoByIdForMember(id uuid.UUID, memberId 
 	return &build, nil
 }
 
+// maps struct field name to db column name
+var buildFieldToDBColumn map[string]string = map[string]string{
+	"Status": "status",
+}
+
 func (r *BuildRepository) UpdateBuildByIdForMemberService(id uuid.UUID, memberId uuid.UUID, updateFields models.Build) error {
+
+	query := `
+	UPDATE builds
+	SET status = $1 
+	`
+
+	// convert update fields into sql string
+	v := reflect.ValueOf(updateFields)
+
+	if v.Kind() != reflect.Struct {
+		fmt.Println("Update fields was not a struct")
+		return fmt.Errorf("Update fields was not a struct")
+	}
+
+	// type information
+	t := v.Type()
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+
+		// skip id, created at and updated at fields
+		if field.Name == "ID" || field.Name == "BaseDBDateModel" {
+			continue
+		}
+
+		dbCol, ok := buildFieldToDBColumn[string(v.Field(i))]
+
+		if !ok {
+			continue
+		}
+
+		query += fmt.Sprintf("SET %s :%s")
+
+	}
 
 	return nil
 }
