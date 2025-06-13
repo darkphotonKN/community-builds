@@ -159,8 +159,6 @@ func (r *BuildRepository) GetAllBuilds(
 
 func (r *BuildRepository) CreateBuild(memberId uuid.UUID, createBuildRequest CreateBuildRequest) (*uuid.UUID, error) {
 
-	fmt.Println("createBuildRequest", createBuildRequest)
-	fmt.Println("memberId", memberId)
 	baseQuery := `
 	INSERT INTO 
 		builds(member_id, main_skill_id, class_id, title, description
@@ -168,7 +166,6 @@ func (r *BuildRepository) CreateBuild(memberId uuid.UUID, createBuildRequest Cre
 
 	if createBuildRequest.AscendancyID != uuid.Nil {
 		baseQuery += ", ascendancy_id"
-
 	}
 
 	endQuery := `

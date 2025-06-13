@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/darkphotonKN/community-builds/config"
@@ -40,5 +41,7 @@ func main() {
 	}
 
 	// starts server and listen on port
-	router.Run(fmt.Sprintf(":%s", port)) // port = ":" + PORT
+	if err := router.Run(fmt.Sprintf(":%s", port)); err != nil {
+		log.Fatal("Failed to start server")
+	}
 }
